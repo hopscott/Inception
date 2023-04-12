@@ -1,5 +1,7 @@
 # Inception
 
+setup sudo group
+
 1. openclassroom docker -> https://openclassrooms.com/en/courses/7905646-optimize-your-deployment-with-docker-containers
 2. nginx basic run -p 80:80 
 3. 443:443 -> http://nginx.org/en/docs/beginners_guide.html
