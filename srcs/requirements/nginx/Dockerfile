@@ -11,6 +11,7 @@
 # https://www.malekal.com/nginx-comment-activer-un-site-avec-sites-enabled-ou-nginx-modsite/
 # CMD only one at end of file to define end
 # EXPOSE helps understand dockerfile without impact
+# https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-example
 # ----------------------------------------> v2
 
 FROM debian:buster
@@ -18,12 +19,11 @@ RUN apt-get update \
 	&& apt-get install -y nginx \
 	&& apt-get install -y php7.3-fpm
 COPY conf/wordpress.conf /etc/nginx/sites-available
-RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/wordpress.conf \
-	&& service php7.3-fpm start \
-	&& service nginx reload
+RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/wordpress.conf
+RUN service php7.3-fpm start
+RUN service nginx reload
 RUN chmod -R 777 /var/www/html \
 	&& echo "<?php phpinfo(); ?>" >> /var/www/html/info.php
-RUN service nginx reload
 EXPOSE 80
 CMD [ "nginx", "-g", "daemon off;" ]
 
