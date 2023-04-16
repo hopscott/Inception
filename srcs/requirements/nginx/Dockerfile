@@ -23,7 +23,8 @@ FROM debian:buster
 RUN apt-get update \
 	&& apt-get install -y nginx \
 	&& apt-get install -y php7.3-fpm \
-	&& apt-get install -y supervisor
+	&& apt-get install -y supervisor \
+	&& mkdir /run/php
 
 # Issue with default overriding site
 COPY conf/wordpress.conf /etc/nginx/sites-available
@@ -32,7 +33,6 @@ RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/wor
 
 # Launching php-fpm from dockerfile - can't use service
 COPY conf/supervisord.conf /etc/supervisor/conf.d/
-RUN 
 
 # PHP test
 RUN chmod -R 777 /var/www/html \
@@ -40,7 +40,7 @@ RUN chmod -R 777 /var/www/html \
 
 # php-fpm start
 EXPOSE 80
-CMD [ "/usr/bin/supervisord", "-n", "&&", "nginx", "-g", "daemon off;" ]
+CMD [ "/usr/sbin/php-fpm7.3", "-F", "&&", "nginx", "-g", "daemon off;" ]
 
 # ----------------------------------------> v3
 
