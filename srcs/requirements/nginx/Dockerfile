@@ -3,7 +3,7 @@
 # FROM debian:buster
 # RUN apt-get update \
 # 	&& apt-get install -y nginx
-# COPY conf/nginx.conf /etc/nginx/conf.d
+# COPY conf/wordpress.conf /etc/nginx/conf.d
 # EXPOSE 80 
 # CMD [ "nginx", "-g", "daemon off;" ]
 
@@ -22,27 +22,47 @@ FROM debian:buster
 
 RUN apt-get update \
 	&& apt-get install -y nginx \
-	&& apt-get install -y php7.3-fpm \
-	&& apt-get install -y supervisor \
-	&& mkdir /run/php
+	&& mkdir /var/run/php \
+	&& apt-get install -y php7.3-fpm
 
 # Issue with default overriding site
 COPY conf/wordpress.conf /etc/nginx/sites-available
 RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/wordpress.conf \
 	&& rm /etc/nginx/sites-enabled/default
 
-# Launching php-fpm from dockerfile - can't use service
-COPY conf/supervisord.conf /etc/supervisor/conf.d/
-
 # PHP test
 RUN chmod -R 777 /var/www/html \
 	&& echo "<?php phpinfo(); ?>" >> /var/www/html/info.php
 
-# php-fpm start
+# Ports
 EXPOSE 80
-CMD [ "/usr/sbin/php-fpm7.3", "-F", "&&", "nginx", "-g", "daemon off;" ]
+
+# Launching php-fpm from dockerfile - can't use service without script
+COPY tools/entrypoint.sh /etc/entrypoint.sh
+RUN chmod +x /etc/entrypoint.sh
+ENTRYPOINT ["/etc/entrypoint.sh"]
 
 # ----------------------------------------> v3
+
+# FROM debian:buster
+
+# RUN apt-get update \
+# 	&& apt-get install -y nginx \
+# 	&& apt-get install -y php7.3-fpm \
+# 	&& mkdir /run/php
+
+# # Issue with default overriding site
+# COPY conf/wordpress.conf /etc/nginx/sites-available
+# RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/wordpress.conf \
+# 	&& rm /etc/nginx/sites-enabled/default
+
+# # PHP test
+# RUN chmod -R 777 /var/www/html \
+# 	&& echo "<?php phpinfo(); ?>" >> /var/www/html/info.php
+
+# # php-fpm start
+# EXPOSE 80
+# CMD [ "nginx", "-g", "daemon off;" ]
 
 #Authentication
 #RUN mkdir -p /etc/nginx/ssl
