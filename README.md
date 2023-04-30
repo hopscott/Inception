@@ -8,3 +8,9 @@ setup sudo group
 4. move phpfpm to another container -> communicate between each other
 5. setup ssl with nginx -p 443:443
 6. wordpress + mariadb at same time with docker-compose
+
+service --status-all
+docker ps -a
+docker system prune
+docker build -t nginx .
+docker run -d -p80:80 nginx
