@@ -19,4 +19,8 @@ setup sudo group
 - v2 = [ nginx + php-fpm ]
 - v3 = [ nginx + php-fpm + wordpress/mysql ]
 - v4 = [ nginx ] < docker-compose > [ php-fpm ]
-- v5 = [ nginx + ssl ] < docker-compose > [ php-fpm ]
+- v5 = [ nginx + ssl ] < docker-compose > [ php-fpm ] (edit /etc/hosts to enable server_name + edit docker-compose 443)
+- v6 = [ nginx + ssl ] < docker-compose > [ php-fpm + wordpress ] (https://swillis.42.fr/wpdemo - database error)
+- v7 = [ nginx + ssl ] < docker-compose > [ php-fpm + wordpress ] <> mariadb
+
+---> Check all comments for credentials
