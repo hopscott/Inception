@@ -15,8 +15,8 @@ setup sudo group
 - docker build -t nginx .
 - docker run -d -p80:80 nginx
 
-v1 = [ nginx ]
-v2 = [ nginx + php-fpm ]
-v3 = [ nginx + php-fpm + wordpress/mysql ]
-v4 = [ nginx ] < docker-compose > [ php-fpm ]
-v5 = [ nginx + ssl ] < docker-compose > [ php-fpm ]
+- v1 = [ nginx ]
+- v2 = [ nginx + php-fpm ]
+- v3 = [ nginx + php-fpm + wordpress/mysql ]
+- v4 = [ nginx ] < docker-compose > [ php-fpm ]
+- v5 = [ nginx + ssl ] < docker-compose > [ php-fpm ]
