@@ -11,8 +11,6 @@
 # ----------------------------------------
 
 # https://www.malekal.com/nginx-comment-activer-un-site-avec-sites-enabled-ou-nginx-modsite/
-# CMD only one at end of file to define end
-# EXPOSE helps understand dockerfile without impact
 # https://stackoverflow.com/questions/19215641/remove-default-nginx-welcome-page-when-access-directly-from-ip-address
 # https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Nginx-PHP-FPM-config-example
 # https://stackoverflow.com/questions/62525233/php-fpm-wont-start-from-a-dockerfile
