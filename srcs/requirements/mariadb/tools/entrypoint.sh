@@ -1,12 +1,36 @@
 #!/usr/bin/env sh
 
 # Source the .env file
-source .env
+. ./.env
 
 service mysql start
 
-echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+# n to NOT remove test database
+mysql_secure_installation <<EOF
 
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
+Y
+$MYSQL_ROOT_PASSWORD
+$MYSQL_ROOT_PASSWORD
+Y
+n
+Y
+Y
+EOF
 
-mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
+mariadb -u root -p <<EOF
+$MYSQL_ROOT_PASSWORD
+CREATE USER 'admin_user'@'localhost' IDENTIFIED BY 'secret_password';
+GRANT ALL PRIVILEGES ON *.* TO 'admin_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+EOF
+
+mariadb -u root -p <<EOF
+$MYSQL_ROOT_PASSWORD
+CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+FLUSH PRIVILEGES;
+EXIT;
+EOF
+
+# service mysql stop
