@@ -1,5 +1,6 @@
 version: "3"
 services:
+
   nginx:
     build:
       context: requirements/nginx
@@ -9,7 +10,12 @@ services:
     networks:
       - internal
     volumes:
-      - ./data/:/var/www/html/
+      - ./files/:/var/www/html/
+    restart: always
+    depends_on:
+        - mariadb
+        - wordpress
+
   wordpress:
     build:
       context: requirements/wordpress
@@ -17,7 +23,13 @@ services:
     networks:
       - internal
     volumes:
-      - ./data/:/var/www/html/
+      - ./files/:/var/www/html/
+    restart: always
+    depends_on:
+        - mariadb
+    env_file:
+      - .env
+
   mariadb:
     build:
       context: requirements/mariadb
@@ -26,6 +38,10 @@ services:
       - internal
     volumes:
       - ./db/:/var/lib/mysql/
+    restart: always
+    env_file:
+      - .env
+
 networks:
   internal:
     driver: bridge

@@ -1,11 +1,14 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-# Source the .env file
-. ./.env
+if [ -e "/var/lib/mysql/$MYSQL_DATABASE" ]
+then
+
+echo "Database already exists"
+
+else
 
 service mysql start
 
-# n to NOT remove test database
 mysql_secure_installation <<EOF
 
 Y
@@ -17,20 +20,24 @@ Y
 Y
 EOF
 
-mariadb -u root -p <<EOF
-$MYSQL_ROOT_PASSWORD
-CREATE USER 'admin_user'@'localhost' IDENTIFIED BY 'secret_password';
-GRANT ALL PRIVILEGES ON *.* TO 'admin_user'@'localhost';
+mysql -uroot -p$MYSQL_ROOT_PASSWORD <<EOF
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 FLUSH PRIVILEGES;
-EXIT;
 EOF
 
-mariadb -u root -p <<EOF
-$MYSQL_ROOT_PASSWORD
+mysql -uroot -p$MYSQL_ROOT_PASSWORD <<EOF
 CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
-GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+CREATE USER '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'localhost';
 FLUSH PRIVILEGES;
-EXIT;
 EOF
+
+mysql -u$MYSQL_USER -p$MYSQL_PASSWORD <<EOF
+SHOW DATABASES;
+EOF
+
+# mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
+
+fi
 
 # service mysql stop
