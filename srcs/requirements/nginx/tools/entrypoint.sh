@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-set -e
+#!/bin/bash
+set -eux
 
 php-fpm7.3
 service mysql start

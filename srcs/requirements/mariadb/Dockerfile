@@ -9,7 +9,7 @@
 FROM debian:buster
 
 RUN apt-get update \
-	&& apt-get install -y mariadb-server mariadb-client mysql-server\
+	&& apt-get install -y mariadb-server mariadb-client\
 	&& mkdir -p /var/run/mysqld \
 	&& chown -R mysql:mysql /var/run/mysqld \
 	&& chmod 777 /var/run/mysqld
@@ -17,11 +17,9 @@ RUN apt-get update \
 COPY conf/50-server.cnf	/etc/mysql/mariadb.conf.d/50-server.cnf
 
 COPY ./tools/entrypoint.sh /etc/entrypoint.sh
-# COPY ./conf/wordpress.sql /usr/local/bin/
 RUN chmod +x /etc/entrypoint.sh
-	# && chmod +x /usr/local/bin/wordpress.sql 
 ENTRYPOINT ["/etc/entrypoint.sh"]
 
 EXPOSE 3306
 
-CMD ["mysqld"]
+CMD ["mysqld", "--bind-address=0.0.0.0"]

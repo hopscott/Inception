@@ -10,20 +10,22 @@ services:
     networks:
       - internal
     volumes:
-      - ./files/:/var/www/html/
+      - wpfiles:/var/www/html
     restart: always
     depends_on:
-        - mariadb
         - wordpress
+        - mariadb
 
   wordpress:
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
     networks:
       - internal
     volumes:
-      - ./files/:/var/www/html/
+      - wpfiles:/var/www/html
     restart: always
     depends_on:
         - mariadb
@@ -34,13 +36,30 @@ services:
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
     networks:
       - internal
     volumes:
-      - ./db/:/var/lib/mysql/
+      - sqldb:/var/lib/mysql
     restart: always
     env_file:
       - .env
+
+volumes:
+
+  sqldb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/swillis/data/sqldb
+      o: bind
+  wpfiles:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/swillis/data/wpfiles
+      o: bind
 
 networks:
   internal:
