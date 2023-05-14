@@ -23,4 +23,4 @@ setup sudo group
 - v6 = [ nginx + ssl ] < docker-compose > [ php-fpm + wordpress ] (https://swillis.42.fr/wpdemo - database error)
 - v7 = [ nginx + ssl ] < docker-compose > [ php-fpm + wordpress ] <> mariadb
 
----> Check all comments for credentials
+---> Could be root folder issue with nginx conf and wp ?
