@@ -1,7 +1,6 @@
 #!/bin/bash
 set -eux
 
-
 if [ -d ./wp ]
 then
 

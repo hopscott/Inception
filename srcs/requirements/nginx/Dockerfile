@@ -74,9 +74,9 @@
 # 	&& wp core download --path=wpdemo --allow-root \
 # 	&& service mysql start \
 # 	&& mysql -u $(whoami) \
-# 	&& wp config create --path=wpdemo --dbname=mariadb --dbuser=root --dbpass=@DenzelHimself123 --allow-root \
+# 	&& wp config create --path=wpdemo --dbname=mariadb --dbuser=... --dbpass=... --allow-root \
 # 	&& wp db create --path=wpdemo --allow-root \
-# 	&& wp core install --path=wpdemo --url=silly.com --title="Inception" --admin_user=root --admin_password=@DenzelHimself123 --admin_email=scott.willis2706@gmail.com --allow-root
+# 	&& wp core install --path=wpdemo --url=silly.com --title="Inception" --admin_user=... --admin_password=... --admin_email=... --allow-root
 
 # # Launching php-fpm from dockerfile - can't use service without script
 # COPY tools/entrypoint.sh /etc/entrypoint.sh

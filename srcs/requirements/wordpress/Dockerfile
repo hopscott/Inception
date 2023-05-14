@@ -66,6 +66,7 @@ WORKDIR /var/www/html/
 
 COPY ./tools/entrypoint.sh /etc/entrypoint.sh
 RUN chmod +x /etc/entrypoint.sh
+
 ENTRYPOINT ["/etc/entrypoint.sh"]
 
 EXPOSE 9000
