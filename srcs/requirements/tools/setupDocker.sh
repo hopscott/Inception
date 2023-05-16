@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eux
 
 #install docker
 sudo apt update

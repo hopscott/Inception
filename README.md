@@ -1,6 +1,6 @@
 # Inception
 
-setup sudo group
+
 
 1. openclassroom docker -> https://openclassrooms.com/en/courses/7905646-optimize-your-deployment-with-docker-containers
 2. nginx basic run -p 80:80 -> http://nginx.org/en/docs/beginners_guide.html | docker run -t -p80:80 -d nginx | docker exec -it ... bash
@@ -22,5 +22,3 @@ setup sudo group
 - v5 = [ nginx + ssl ] < docker-compose > [ php-fpm ] (edit /etc/hosts to enable server_name + edit docker-compose 443)
 - v6 = [ nginx + ssl ] < docker-compose > [ php-fpm + wordpress ] (https://swillis.42.fr/wpdemo - database error)
 - v7 = [ nginx + ssl ] < docker-compose > [ php-fpm + wordpress ] <> mariadb
-
----> Check all comments for credentials
