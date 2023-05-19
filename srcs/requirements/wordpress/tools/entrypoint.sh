@@ -59,12 +59,8 @@ echo "Wordpress already downloaded"
 
 else
 
-# wait for mariadb
-sleep 10
-
 # setup wp dir
 wp core download --allow-root
-wp db create --allow-root
 
 fi
 
@@ -74,6 +70,9 @@ then
 echo "Wordpress already configured"
 
 else
+
+# wait for mariadb
+sleep 10
 
 # setup wp-config.php file and db
 service mysql start

@@ -23,6 +23,7 @@ datadir                 = /var/lib/mysql
 #lc-messages-dir         = /usr/share/mysql
 #skip-external-locking
 
+
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
 # bind-address            = 127.0.0.1
@@ -128,6 +129,9 @@ collation-server      = utf8mb4_general_ci
 # If you use the same .cnf file for MySQL and MariaDB,
 # you can put MariaDB-only options here
 [mariadb]
+
+# DISABLE to stop passwordless authentication as root -> throws error 1524
+#disable_unix_socket
 
 # This group is only read by MariaDB-10.3 servers.
 # If you use the same .cnf file for MariaDB of different versions,

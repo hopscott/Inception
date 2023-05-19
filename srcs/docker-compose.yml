@@ -2,6 +2,8 @@ version: "3"
 services:
 
   nginx:
+    image: nginx
+    container_name: nginx
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
@@ -16,11 +18,11 @@ services:
         - wordpress
 
   wordpress:
+    image: wordpress
+    container_name: wordpress
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
-    ports:
-      - "9000:9000"
     networks:
       - internal
     volumes:
@@ -32,11 +34,11 @@ services:
       - .env
 
   mariadb:
+    image: mariadb
+    container_name: mariadb
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
-    ports:
-      - "3306:3306"
     networks:
       - internal
     volumes:

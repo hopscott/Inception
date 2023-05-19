@@ -69,6 +69,4 @@ RUN chmod +x /etc/entrypoint.sh
 
 ENTRYPOINT ["/etc/entrypoint.sh"]
 
-EXPOSE 9000
-
 CMD [ "php-fpm7.3", "-F" ]

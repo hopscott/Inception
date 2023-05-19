@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -eux
+# set -ux
 
 service mysql start
 
@@ -9,6 +9,9 @@ then
 echo "Database already exists"
 
 else
+
+# wait for mysql to start
+sleep 5
 
 mysql_install_db
 mysql_secure_installation <<EOF
@@ -25,14 +28,15 @@ EOF
 # https://stackoverflow.com/questions/19101243/error-1130-hy000-host-is-not-allowed-to-connect-to-this-mysql-server
 
 mysql -uroot -p$MYSQL_ROOT_PASSWORD <<EOF
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+DROP USER 'root'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EOF
 
 mysql -uroot -p$MYSQL_ROOT_PASSWORD <<EOF
 CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
 CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
-GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EOF
 
@@ -40,6 +44,10 @@ mysql -u$MYSQL_USER -p$MYSQL_PASSWORD <<EOF
 SHOW DATABASES;
 EOF
 
+mysqladmin -uroot -p$MYSQL_ROOT_PASSWORD shutdown
+
 fi
+
+service mysql stop
 
 exec "$@"
